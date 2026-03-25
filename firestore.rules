@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: artifacts/{appId}/users/{userId}/favorites
+    // Document ID: [type]_[route/line]_[stopId/station]
+    // Fields:
+    //   - type: string (required, 'bus' or 'mtr')
+    //   - order: number (required)
+    //   - timestamp: number (required)
+    //   - route: string (optional)
+    //   - stopId: string (optional)
+    //   - stopName: string (optional)
+    //   - bound: string (optional)
+    //   - serviceType: string (optional)
+    //   - line: string (optional)
+    //   - lineName: string (optional)
+    //   - station: string (optional)
+    //   - stationName: string (optional)
+    //   - color: string (optional)
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function isValidFavorite() {
+      let data = request.resource.data;
+      return hasRequiredFields(['type', 'order', 'timestamp']) &&
+             data.type in ['bus', 'mtr'] &&
+             data.order is number &&
+             data.timestamp is number &&
+             (!('route' in data) || data.route is string) &&
+             (!('stopId' in data) || data.stopId is string) &&
+             (!('stopName' in data) || data.stopName is string) &&
+             (!('bound' in data) || data.bound is string) &&
+             (!('serviceType' in data) || data.serviceType is string) &&
+             (!('line' in data) || data.line is string) &&
+             (!('lineName' in data) || data.lineName is string) &&
+             (!('station' in data) || data.station is string) &&
+             (!('stationName' in data) || data.stationName is string) &&
+             (!('color' in data) || data.color is string);
+    }
+
+    match /artifacts/{appId}/users/{userId}/favorites/{favoriteId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidFavorite();
+      allow update: if isOwner(userId) && isValidFavorite();
+      allow delete: if isOwner(userId);
+    }
+  }
+}

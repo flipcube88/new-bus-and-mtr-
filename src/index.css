@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Noto Sans TC', ui-sans-serif, system-ui, sans-serif;
+  --color-kmb-red: #ef4444;
+  --color-mtr-blue: #3b82f6;
+}
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: #f8fafc;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(239, 68, 68, 0.03) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.03) 0px, transparent 50%);
+  min-height: 100vh;
+  color: #1e293b;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@keyframes pulse-shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.loading-shimmer { animation: pulse-shimmer 2s infinite; }
+
+@media screen and (max-width: 768px) {
+  input, textarea {
+    font-size: 16px !important;
+  }
+}

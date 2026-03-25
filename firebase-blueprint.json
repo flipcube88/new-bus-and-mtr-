@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "Favorite": {
+      "title": "Favorite Route",
+      "description": "A user's saved favorite transit route (Bus or MTR)",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["bus", "mtr"],
+          "description": "Type of transit"
+        },
+        "order": {
+          "type": "number",
+          "description": "Sort order index"
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Time when the favorite was added"
+        },
+        "route": {
+          "type": "string",
+          "description": "Bus route number (if type is bus)"
+        },
+        "stopId": {
+          "type": "string",
+          "description": "Bus stop ID (if type is bus)"
+        },
+        "stopName": {
+          "type": "string",
+          "description": "Bus stop name (if type is bus)"
+        },
+        "bound": {
+          "type": "string",
+          "description": "Bus bound (if type is bus)"
+        },
+        "serviceType": {
+          "type": "string",
+          "description": "Bus service type (if type is bus)"
+        },
+        "line": {
+          "type": "string",
+          "description": "MTR line code (if type is mtr)"
+        },
+        "lineName": {
+          "type": "string",
+          "description": "MTR line name (if type is mtr)"
+        },
+        "station": {
+          "type": "string",
+          "description": "MTR station code (if type is mtr)"
+        },
+        "stationName": {
+          "type": "string",
+          "description": "MTR station name (if type is mtr)"
+        },
+        "color": {
+          "type": "string",
+          "description": "MTR line color (if type is mtr)"
+        }
+      },
+      "required": ["type", "order", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/artifacts/{appId}/users/{userId}/favorites/{favoriteId}": {
+      "schema": {
+        "$ref": "#/entities/Favorite"
+      },
+      "description": "User's favorite routes"
+    }
+  }
+}
