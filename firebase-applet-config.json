@@ -1,10 +1,9 @@
 {
-  "projectId": "gen-lang-client-0221561313",
-  "appId": "1:111663995850:web:8e2f9888e33d7fd750cd33",
-  "apiKey": "AIzaSyCfuhXn3tMjsE4KH330aq4fbwsCiIQJY0w",
-  "authDomain": "gen-lang-client-0221561313.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-054a2959-c00b-4faa-b254-c5ff2607e6af",
-  "storageBucket": "gen-lang-client-0221561313.firebasestorage.app",
-  "messagingSenderId": "111663995850",
-  "measurementId": ""
+  "apiKey": "AIzaSyBYc2nH487G2l1Q-CtegzqEJZTj6j54qxs",
+  "authDomain": "busbus-173fa.firebaseapp.com",
+  "projectId": "busbus-173fa",
+  "storageBucket": "busbus-173fa.firebasestorage.app",
+  "messagingSenderId": "846537132540",
+  "appId": "1:846537132540:web:0b8f6dbd470291836e4a79",
+  "measurementId": "G-M4VNGWXKFN"
 }

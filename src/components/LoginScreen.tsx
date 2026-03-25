@@ -18,7 +18,7 @@ export default function LoginScreen() {
       } else if (err.code === 'auth/operation-not-allowed') {
         setError('請在 Firebase Console 啟用 Google 登入');
       } else {
-        setError('登入失敗，請重試');
+        setError(`登入失敗: ${err.message || err.code || '未知錯誤'}`);
       }
     } finally {
       setLoading(false);
