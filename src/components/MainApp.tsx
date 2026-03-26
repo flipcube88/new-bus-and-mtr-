@@ -606,7 +606,7 @@ export default function MainApp({ user }: MainAppProps) {
                       onChange={(e) => setRouteInput(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && searchBusRoute()}
                       placeholder="輸入路線 (e.g. 290)" 
-                      className="flex-1 min-w-0 bg-transparent font-black text-xl text-gray-700 dark:text-white outline-none placeholder:text-gray-300 dark:placeholder:text-gray-600 px-3 uppercase"
+                      className="flex-1 min-w-0 bg-transparent font-black text-xl text-slate-900 dark:text-white outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 px-3 uppercase"
                     />
                     <button 
                       onClick={findNearbyStops}
