@@ -124,8 +124,10 @@ export default function MainApp({ user }: MainAppProps) {
           } else if (f.type === 'ctb') {
             const res = await fetch(`https://rt.data.gov.hk/v2/transport/citybus/eta/CTB/${f.stopId}/${f.route}`);
             const data = await res.json();
-            const targetDir = f.bound === 'inbound' ? 'I' : 'O';
-            const etas = data?.data?.filter((e: any) => e.eta && e.dir === targetDir).sort((a: any, b: any) => new Date(a.eta).getTime() - new Date(b.eta).getTime()).slice(0, 2);
+            const targetDir = f.bound === 'inbound' ? 'I' : f.bound === 'outbound' ? 'O' : f.bound;
+            const validEtas = data?.data?.filter((e: any) => e.eta && (!targetDir || e.dir === targetDir)).sort((a: any, b: any) => new Date(a.eta).getTime() - new Date(b.eta).getTime());
+            const uniqueEtas = validEtas?.filter((e: any, i: number, arr: any[]) => i === 0 || e.eta !== arr[i-1].eta);
+            const etas = (uniqueEtas || []).slice(0, 2);
             if (etas) {
               newPreviews[f.id] = etas.map((e: any) => {
                 const diff = Math.max(0, Math.floor((new Date(e.eta).getTime() - Date.now()) / 60000));
@@ -135,7 +137,10 @@ export default function MainApp({ user }: MainAppProps) {
           } else {
             const res = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${f.stopId}/${f.route}/${f.serviceType || 1}`);
             const data = await res.json();
-            const etas = data?.data?.filter((e: any) => e.eta).sort((a: any, b: any) => new Date(a.eta).getTime() - new Date(b.eta).getTime()).slice(0, 2);
+            const targetDir = f.bound === 'inbound' ? 'I' : f.bound === 'outbound' ? 'O' : f.bound;
+            const validEtas = data?.data?.filter((e: any) => e.eta && (!targetDir || e.dir === targetDir)).sort((a: any, b: any) => new Date(a.eta).getTime() - new Date(b.eta).getTime());
+            const uniqueEtas = validEtas?.filter((e: any, i: number, arr: any[]) => i === 0 || e.eta !== arr[i-1].eta);
+            const etas = (uniqueEtas || []).slice(0, 2);
             if (etas) {
               newPreviews[f.id] = etas.map((e: any) => {
                 const diff = Math.max(0, Math.floor((new Date(e.eta).getTime() - Date.now()) / 60000));
@@ -717,7 +722,7 @@ export default function MainApp({ user }: MainAppProps) {
                   const favData = mode === 'mtr' ? {
                     type: 'mtr', line: selectedLine?.code, station: s.stop, stationName: s.name_tc, lineName: selectedLine?.name
                   } : {
-                    type: mode, route: selectedRoute?.route, stopId: s.stop, stopName: s.name_tc, bound: selectedRoute?.bound, serviceType: selectedRoute?.service_type
+                    type: mode, route: selectedRoute?.route, stopId: s.stop, stopName: s.name_tc, bound: selectedRoute?.bound, serviceType: String(selectedRoute?.service_type || "1")
                   };
 
                   return (
